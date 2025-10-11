@@ -37,6 +37,49 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
+class ContactCreate(BaseModel):
+    name: str
+    email: EmailStr
+    interest: str
+    message: str
+    
+    @validator('name')
+    def name_must_not_be_empty(cls, v):
+        if not v or not v.strip():
+            raise ValueError('Name cannot be empty')
+        return v.strip()
+    
+    @validator('interest')
+    def interest_must_be_valid(cls, v):
+        valid_interests = ['investor', 'collaborator', 'cofounder', 'partner', 'other']
+        if v not in valid_interests:
+            raise ValueError(f'Interest must be one of: {", ".join(valid_interests)}')
+        return v
+    
+    @validator('message')
+    def message_must_not_be_empty(cls, v):
+        if not v or not v.strip():
+            raise ValueError('Message cannot be empty')
+        if len(v.strip()) < 10:
+            raise ValueError('Message must be at least 10 characters long')
+        return v.strip()
+
+class Contact(BaseModel):
+    model_config = ConfigDict(extra="ignore")  # Ignore MongoDB's _id field
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    email: EmailStr
+    interest: str
+    message: str
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    status: str = "new"
+
+class ContactResponse(BaseModel):
+    success: bool
+    message: str
+    id: str
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
