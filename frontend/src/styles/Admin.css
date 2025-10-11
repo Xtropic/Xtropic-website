@@ -23,6 +23,11 @@
   color: var(--text-secondary);
 }
 
+.admin-actions {
+  display: flex;
+  gap: 16px;
+}
+
 .refresh-btn {
   background: var(--brand-primary);
   color: #000000;
@@ -36,6 +41,21 @@
 .refresh-btn:hover {
   background: var(--brand-hover);
   color: var(--brand-primary);
+}
+
+.logout-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 0px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+  color: #FFFFFF;
 }
 
 .spinning {
