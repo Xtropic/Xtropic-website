@@ -251,8 +251,8 @@ const Home = () => {
                   rows={5}
                 />
               </div>
-              <Button type="submit" className="btn-primary submit-btn">
-                Submit
+              <Button type="submit" className="btn-primary submit-btn" disabled={isSubmitting}>
+                {isSubmitting ? 'Submitting...' : 'Submit'}
                 <ArrowRight size={20} />
               </Button>
             </form>
