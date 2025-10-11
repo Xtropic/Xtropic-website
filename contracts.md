@@ -199,15 +199,38 @@ const handleSubmit = async (e) => {
 
 ## Integration Checklist
 
-- [ ] Backend: Create Contact model
-- [ ] Backend: Implement POST /api/contact endpoint
-- [ ] Backend: Test endpoint with curl
-- [ ] Frontend: Add toast notifications (sonner)
-- [ ] Frontend: Update handleSubmit with API call
-- [ ] Frontend: Add loading state for submit button
-- [ ] Frontend: Add error handling
-- [ ] Test: Submit form and verify in MongoDB
-- [ ] Test: Check all validation cases
+- [x] Backend: Create Contact model
+- [x] Backend: Implement POST /api/contact endpoint
+- [x] Backend: Test endpoint with curl
+- [x] Frontend: Add toast notifications (sonner)
+- [x] Frontend: Update handleSubmit with API call
+- [x] Frontend: Add loading state for submit button
+- [x] Frontend: Add error handling
+- [x] Test: Submit form and verify in MongoDB
+- [ ] Test: Check all validation cases (in progress)
+
+## Backend Implementation Complete
+
+### Implemented Endpoints:
+1. **POST /api/contact** - Fully implemented with validation
+   - Email format validation
+   - Required field validation
+   - Interest type validation (investor, collaborator, cofounder, partner, other)
+   - Message length validation (minimum 10 characters)
+   - Automatic timestamp generation
+   - MongoDB storage with status tracking
+
+2. **GET /api/contacts** - Admin endpoint for retrieving submissions
+   - Optional status filtering
+   - Sorted by timestamp (newest first)
+   - Limit parameter for pagination
+
+### Frontend Integration Complete:
+- Contact form now connected to backend API
+- Toast notifications for success/error feedback
+- Loading state during submission
+- Error handling with user-friendly messages
+- Form reset on successful submission
 
 ## Notes
 - No authentication required for contact form submission
