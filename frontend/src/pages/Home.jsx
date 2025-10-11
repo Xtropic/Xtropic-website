@@ -24,24 +24,26 @@ const Home = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    try {
-      const response = await axios.post(`${API}/contact`, formData);
-      
-      if (response.data.success) {
-        toast.success('Thank you! We will get back to you soon.');
-        setFormData({ name: '', email: '', interest: '', message: '' });
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      const errorMessage = error.response?.data?.detail || 'Something went wrong. Please try again.';
-      toast.error(errorMessage);
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Static website - open email client instead
+    const subject = encodeURIComponent('Xtropic Interest - ' + formData.interest);
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\n` +
+      `Email: ${formData.email}\n` +
+      `Interest: ${formData.interest}\n\n` +
+      `Message:\n${formData.message}`
+    );
+    
+    // Replace with your actual email
+    const mailtoLink = `mailto:contact@xtropic.com?subject=${subject}&body=${body}`;
+    window.location.href = mailtoLink;
+    
+    toast.success('Opening your email client...');
+    setFormData({ name: '', email: '', interest: '', message: '' });
+    setIsSubmitting(false);
   };
 
   const handleChange = (field, value) => {
