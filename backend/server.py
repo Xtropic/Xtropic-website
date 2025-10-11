@@ -109,6 +109,61 @@ async def get_status_checks():
     
     return status_checks
 
+@api_router.post("/contact", response_model=ContactResponse)
+async def create_contact(contact_input: ContactCreate):
+    """
+    Submit a contact form for investment, collaboration, or partnership inquiries.
+    """
+    try:
+        # Create contact object with generated ID and timestamp
+        contact_dict = contact_input.model_dump()
+        contact_obj = Contact(**contact_dict)
+        
+        # Convert to dict and serialize datetime to ISO string for MongoDB
+        doc = contact_obj.model_dump()
+        doc['timestamp'] = doc['timestamp'].isoformat()
+        
+        # Save to MongoDB
+        result = await db.contacts.insert_one(doc)
+        
+        if result.inserted_id:
+            logger.info(f"New contact submission from {contact_obj.email} - Interest: {contact_obj.interest}")
+            return ContactResponse(
+                success=True,
+                message="Thank you for your interest! We will get back to you soon.",
+                id=contact_obj.id
+            )
+        else:
+            raise HTTPException(status_code=500, detail="Failed to save contact information")
+            
+    except Exception as e:
+        logger.error(f"Error creating contact: {str(e)}")
+        raise HTTPException(status_code=500, detail="An error occurred while processing your request")
+
+@api_router.get("/contacts", response_model=List[Contact])
+async def get_contacts(status: Optional[str] = None, limit: int = 100):
+    """
+    Retrieve all contact submissions. Optional filtering by status.
+    """
+    try:
+        query = {}
+        if status:
+            query["status"] = status
+        
+        # Exclude MongoDB's _id field from the query results
+        contacts = await db.contacts.find(query, {"_id": 0}).sort("timestamp", -1).to_list(limit)
+        
+        # Convert ISO string timestamps back to datetime objects
+        for contact in contacts:
+            if isinstance(contact['timestamp'], str):
+                contact['timestamp'] = datetime.fromisoformat(contact['timestamp'])
+        
+        return contacts
+        
+    except Exception as e:
+        logger.error(f"Error fetching contacts: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to retrieve contacts")
+
 # Include the router in the main app
 app.include_router(api_router)
 
