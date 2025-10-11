@@ -8,12 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { ArrowRight, Rocket, Cpu, Recycle, Factory, CheckCircle2 } from 'lucide-react';
 import Spline from '@splinetool/react-spline';
 import { toast } from 'sonner';
-import axios from 'axios';
 import { mockData } from '../mock';
 import '../styles/Home.css';
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
 
 const Home = () => {
   const [formData, setFormData] = useState({
