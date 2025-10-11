@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
@@ -10,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from '../components/ui/table';
-import { RefreshCw, Mail, User, MessageSquare, Calendar } from 'lucide-react';
+import { RefreshCw, Mail, User, MessageSquare, Calendar, LogOut } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import '../styles/Admin.css';
@@ -22,6 +23,7 @@ const Admin = () => {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
+  const navigate = useNavigate();
 
   const fetchContacts = async () => {
     setLoading(true);
