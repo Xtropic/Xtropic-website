@@ -83,10 +83,23 @@ const Admin = () => {
           <h1 className="admin-title">Admin Dashboard</h1>
           <p className="admin-subtitle">Manage contact form submissions</p>
         </div>
-        <Button onClick={fetchContacts} disabled={loading} className="refresh-btn">
-          <RefreshCw className={loading ? 'spinning' : ''} size={18} />
-          Refresh
-        </Button>
+        <div className="admin-actions">
+          <Button onClick={fetchContacts} disabled={loading} className="refresh-btn">
+            <RefreshCw className={loading ? 'spinning' : ''} size={18} />
+            Refresh
+          </Button>
+          <Button 
+            onClick={() => {
+              sessionStorage.removeItem('adminAuth');
+              toast.success('Logged out successfully');
+              navigate('/login');
+            }} 
+            className="logout-btn"
+          >
+            <LogOut size={18} />
+            Logout
+          </Button>
+        </div>
       </div>
 
       {/* Stats Cards */}
