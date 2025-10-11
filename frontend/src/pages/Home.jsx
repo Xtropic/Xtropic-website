@@ -7,8 +7,13 @@ import { Label } from '../components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { ArrowRight, Rocket, Cpu, Recycle, Factory, CheckCircle2 } from 'lucide-react';
 import Spline from '@splinetool/react-spline';
+import { toast } from 'sonner';
+import axios from 'axios';
 import { mockData } from '../mock';
 import '../styles/Home.css';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const Home = () => {
   const [formData, setFormData] = useState({
@@ -17,13 +22,26 @@ const Home = () => {
     interest: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Mock submission - will be replaced with API call
-    alert('Thank you for your interest! We will get back to you soon.');
-    setFormData({ name: '', email: '', interest: '', message: '' });
+    setIsSubmitting(true);
+    
+    try {
+      const response = await axios.post(`${API}/contact`, formData);
+      
+      if (response.data.success) {
+        toast.success('Thank you! We will get back to you soon.');
+        setFormData({ name: '', email: '', interest: '', message: '' });
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      const errorMessage = error.response?.data?.detail || 'Something went wrong. Please try again.';
+      toast.error(errorMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (field, value) => {
