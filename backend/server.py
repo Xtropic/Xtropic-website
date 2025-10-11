@@ -51,7 +51,7 @@ class ContactCreate(BaseModel):
     
     @validator('interest')
     def interest_must_be_valid(cls, v):
-        valid_interests = ['investor', 'collaborator', 'cofounder', 'partner', 'other']
+        valid_interests = ['investor', 'collaborator', 'partner', 'other']
         if v not in valid_interests:
             raise ValueError(f'Interest must be one of: {", ".join(valid_interests)}')
         return v
