@@ -61,6 +61,8 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
