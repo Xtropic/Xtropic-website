@@ -67,11 +67,6 @@ const Login = () => {
             >
               {isLoading ? 'Verifying...' : 'Login'}
             </Button>
-
-            <div className="login-hint">
-              <p>Default password: <strong>xtropic2025</strong></p>
-              <p className="hint-text">Change this in production!</p>
-            </div>
           </form>
         </Card>
       </div>
