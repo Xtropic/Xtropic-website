@@ -234,7 +234,6 @@ const Home = () => {
                   <SelectContent>
                     <SelectItem value="investor">Investor</SelectItem>
                     <SelectItem value="collaborator">Collaborator</SelectItem>
-                    <SelectItem value="cofounder">Potential Co-founder</SelectItem>
                     <SelectItem value="partner">Strategic Partner</SelectItem>
                     <SelectItem value="other">Other</SelectItem>
                   </SelectContent>
